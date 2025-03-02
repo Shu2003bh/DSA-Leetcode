@@ -9,26 +9,58 @@
  * };
  */
 class Solution {
+    ListNode* getmiddle(ListNode* head){
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+        while(fast!=NULL && fast->next!=NULL){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        return slow;
+    }
+
+   ListNode* getreverse(ListNode* head){
+        if(head == NULL || head->next == NULL ){
+            return head;
+        }
+        ListNode* h1 = getreverse(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return h1;
+
+    }
 public:
     bool isPalindrome(ListNode* head) {
-        vector<int> arr;
-        ListNode*  curr = head;
-        while(curr!=NULL){
-            arr.push_back(curr->val);
-            curr = curr->next;
-        }
-        int st = 0;
-        int end = arr.size()-1;
-        while(st<=end){
-            if(arr[st]==arr[end]){
-                st++;
-                end--;
-            }
-            else{
+        if(head->next == NULL){return true;}
+        //ListNode* curr = head;
+        //1. Find Middle part
+        ListNode* middle = getmiddle(head);
+        //2. Reverse
+        ListNode* temp = middle->next;
+        middle->next = getreverse(temp);
+       
+        // 3. Compare
+        ListNode* h1 = head;
+        ListNode* h2 =middle->next;
+
+        //4.move into orignal position
+        while(h2!=NULL ){
+            if(h1->val!=h2->val){
                 return false;
             }
+            h1 = h1->next;
+            h2 = h2->next;
         }
+
+        temp =  middle->next;
+        middle->next =getreverse(temp);
+        
+
+
         return true;
+        
+
+
         
     }
 };
