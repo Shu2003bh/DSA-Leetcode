@@ -12,31 +12,31 @@
 class Solution {
 public:
     pair<bool,int> checkbalanced(TreeNode* root){
-        if(root ==  NULL){
-            pair<bool,int> p = make_pair(true,0);
+        if(root == NULL){
+            pair<bool,int> p = make_pair(1,0);
             return p;
         }
         pair<bool,int> left = checkbalanced(root->left);
         pair<bool,int> right = checkbalanced(root->right);
 
-        bool op1 = left.first;
-        bool op2 = right.first;
-        bool op3 = abs(left.second-right.second)<=1;
+        int op1 = left.first;
+        int op2 = right.first;
+        int op3 = abs(left.second-right.second)<=1;
 
-        pair<bool,int> ans;
-        ans.second = max(left.second,right.second)+1;
-        if(op1 && op2 && op3){
-             ans.first = true;
-        }
-        else{
+         pair<bool,int> ans;
+         ans.second = max(left.second,right.second)+1;
+         if(op1 && op2 && op3){
+            ans.first = true;
+         }
+         else{
             ans.first = false;
-            
-        }
-        return ans;
+         }
+         return ans;
 
     }
     bool isBalanced(TreeNode* root) {
-        return checkbalanced(root).first;
+        pair<bool,int> ans = checkbalanced(root);
+        return ans.first;
         
     }
 };
