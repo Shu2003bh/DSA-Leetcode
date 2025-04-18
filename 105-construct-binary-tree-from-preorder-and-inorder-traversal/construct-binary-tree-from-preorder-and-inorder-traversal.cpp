@@ -10,35 +10,31 @@
  * };
  */
 class Solution {
-    int find(vector<int> inorder,int element,int n){
-        for(int i = 0 ;i<n;i++){
-            if(inorder[i]==element){
-                return i;
-            }
-           
-        }
-            return -1;
-    }
-    TreeNode* solve(vector<int> preorder, vector<int> inorder,int &index,int stidx,int endidx,int n){
-        if(index >= n || stidx > endidx){
-            return NULL;
-        }
-        int element = preorder[index++];
-        TreeNode* root = new TreeNode(element);
-       int  position = find(inorder , element,n);
-       root->left = solve(preorder,inorder,index,stidx,position -1,n);
-       root->right = solve(preorder,inorder,index,position+1,endidx,n);
-
-       return root;
-    }
 public:
+int findpos(vector<int> inorder,int target,int  n){
+    for(int i =0;i<n;i++){
+        if(target == inorder[i]){
+            return i;
+        }
+    }
+    return -1;
+}
+TreeNode* solve(vector<int> preorder, vector<int> inorder,int &idx,int stidx,int endidx,int n){
+    if(idx >= n || stidx > endidx){
+        return NULL;
+    }
+    int element = preorder[idx++];
+    int pos = findpos(inorder,element,n);
+    TreeNode* root = new TreeNode(element);
+    root->left = solve(preorder,inorder,idx,stidx,pos-1,n);
+    root->right = solve(preorder,inorder,idx,pos+1,endidx,n);
+    return root;
+}
+
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         int n = preorder.size();
-        int index=0;
-        TreeNode* ans = solve(preorder,inorder,index,0,n-1,n);
-        return ans;
-
-        
+        int index = 0;
+        return solve(preorder,inorder,index,0,n-1,n);
         
     }
 };
