@@ -1,26 +1,91 @@
+class TrieNode{
+    public:
+    char data;
+    TrieNode* children[26];
+    bool isterminal;
+    int childcount = 0;
+
+    TrieNode(char data ){
+        this->data = data;
+        for(int i =0;i<26;i++){
+            this->children[i]=NULL;
+        }
+        this->isterminal = false;  
+
+    }
+};
+
+class Trie{
+    public:
+    TrieNode* root;
+    Trie(){
+        root = new TrieNode('\0');
+
+    }
+
+    void insertword(string word){
+        insertutil(word,root);
+    }
+
+    void insertutil(string word,TrieNode* root ){
+        if(word.size()==0){
+            root->isterminal = true;
+            return;
+        }
+        TrieNode* child;
+        int index = word[0]-'a';
+        if(root->children[index]!=NULL){
+            child  = root->children[index];
+            
+        }
+        else{
+            child = new TrieNode(word[0]);
+            root->childcount++;
+            root->children[index]=child;
+        }
+
+        insertutil(word.substr(1),child);
+    }
+    void lcp(string &ans,string word){
+        TrieNode* temp = root;
+        for(int i =0;i<word.size();i++){
+            char ch = word[i];
+
+            if(temp->childcount == 1){
+                int index = ch-'a';
+                ans.push_back(ch);
+                temp = temp->children[index];
+            }
+            else{
+                break;
+
+            }
+            if(temp->isterminal){
+                break;
+            }
+
+        }
+      
+
+    }
+};
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
-        string ans;
-        for(int i =0;i<strs[0].size();i++){
-            char ch = strs[0][i];
-            bool match = true;
-            for(int j =1;j<strs.size();j++){
-                if(i>strs[j].size()-1||ch!=strs[j][i]){
-                    match = false;
-                    break;
+          if (strs.empty()) return "";
 
-                }
-            }
-                if(match == false){
-                    break;
-                }
-                else{
-                    ans.push_back(ch);
-                }
-            
+      for (string s : strs) {
+        if (s.empty()) return "";  // ✅ handle empty string early
+    }
+        Trie *t = new Trie();
+        for(int i =0 ;i<strs.size();i++){
+            t->insertword(strs[i]);
         }
+        string first = strs[0];
+        string ans = "";
+        t->lcp(ans,first);
         return ans;
+
         
     }
 };
