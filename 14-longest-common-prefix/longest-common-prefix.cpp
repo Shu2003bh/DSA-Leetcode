@@ -72,10 +72,10 @@ class Trie{
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
-          if (strs.empty()) return "";
+        if (strs.empty()) return "";
 
-      for (string s : strs) {
-        if (s.empty()) return "";  // ✅ handle empty string early
+        for (string s : strs) {
+        if (s.empty()) return "";  
     }
         Trie *t = new Trie();
         for(int i =0 ;i<strs.size();i++){
