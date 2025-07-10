@@ -23,7 +23,7 @@ public:
         for(int i = 0; i < n; i++) {
             if(col[i] == -1) {
                 bool isValid = dfs(i, graph, col, 0);
-                if(isValid == false)  // bina ! ke
+                if(!isValid)  // bina ! ke
                     return false;
             }
         }
