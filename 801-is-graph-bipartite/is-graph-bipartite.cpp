@@ -4,7 +4,7 @@ class Solution {
 
         for(auto nbr : graph[node]) {
             if(col[nbr] == -1) {
-                if(dfs(nbr, graph, col, 1 - color) == false)
+                if(!dfs(nbr, graph, col, 1 - color))
                     return false;
             }
             else if(col[nbr] == col[node]) {
