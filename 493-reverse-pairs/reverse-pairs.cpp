@@ -1,7 +1,6 @@
 class Solution {
 public:
-int Merge(vector<int> &arr,int low,int mid,int high){
-      int cnt = 0;
+void Merge(vector<int> &arr,int low,int mid,int high){
       vector<int> temp;
       int l = low;
       int  r = mid+1;
@@ -29,7 +28,7 @@ int Merge(vector<int> &arr,int low,int mid,int high){
       for(int i =low;i<=high;i++){
           arr[i] = temp[i-low];
       }
-      return cnt;
+      
   }
   int countPairs(vector<int> &arr, int low, int mid, int high) {
     int right = mid + 1;
