@@ -49,11 +49,33 @@ public:
 
 
     }
+    int  solvetab(vector<int>& days, vector<int>& costs,int n){
+        vector<int> dp(n+1,INT_MAX);
+        dp[n] = 0;
+
+        for(int k = n-1;k>=0;k--){
+        int opt1 = costs[0]+dp[k+1];
+        int i;
+        for( i = k ;i<n && days[i]<days[k]+7;i++);
+
+        int opt2 = costs[1]+dp[i] ;
+
+         for(i = k ;i<n && days[i]<days[k]+30;i++);
+        
+        int opt3 = costs[2]+dp[i];
+
+        int ans = min(opt1,min(opt2,opt3));
+        dp[k]= ans;
+
+        }
+        return dp[0];
+    }
     int mincostTickets(vector<int>& days, vector<int>& costs) {
         int n = days.size();
         vector<int> dp(n+1,-1);
         // return solve(days,costs,365,0);
-        return solvemem(days,costs,n,0,dp);
+        // return solvemem(days,costs,n,0,dp);
+        return solvetab(days,costs,n);
         
     }
 };
