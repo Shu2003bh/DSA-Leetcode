@@ -25,11 +25,31 @@ public:
         dp[index][time] = ans;
         return dp[index][time];
     }
+    int solvetab(vector<int>& satisfaction){
+        int n  = satisfaction.size();
+        vector<vector<int>> dp(n+1,vector<int>(n+1,0));
+        for(int i =0;i<n;i++){
+            dp[n][i] = 0;
+        }
+        for(int index =n-1;index>=0;index--){
+            for(int time = n-1;time>=0;time--){
+                    int include = satisfaction[index]*(time+1)+dp[index+1][time+1];
+                    int exclude = 0 + dp[index+1][time];
+                    int ans = max(include,exclude);
+                    dp[index][time] = ans;
+
+            }
+
+        }
+            return dp[0][0];
+        
+    }
     int maxSatisfaction(vector<int>& satisfaction) {
         int n = satisfaction.size();
         sort(satisfaction.begin(),satisfaction.end());
-        vector<vector<int>> dp(n,vector<int>(n,-1));
-        return solvemem(satisfaction,0,0,dp);
+        // vector<vector<int>> dp(n,vector<int>(n,-1));
+        // return solvemem(satisfaction,0,0,dp);
+        return solvetab(satisfaction);
         // return solve(satisfaction,0,0);
         
     }
