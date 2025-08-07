@@ -1,20 +1,29 @@
 class Solution {
 private:
-static bool cmp(vector<int> &a, vector<int> &b)
+// static bool cmp(vector<int> &a, vector<int> &b)
+//     {
+//         // If the widths are equal, sort in descending order of heights
+//         if (a[0] == b[0])
+//         {
+//             return a[1] > b[1];
+//         }
+
+//         // Sort in ascending order of widths
+//         return a[0] < b[0];
+//     }
+
+int solveBS(int n,vector<vector<int>>& nums)
     {
-        // If the widths are equal, sort in descending order of heights
-        if (a[0] == b[0])
+            sort(nums.begin(),nums.end(),[](vector<int> &a, vector<int> &b){
+                 if (a[0] == b[0])
         {
             return a[1] > b[1];
         }
 
         // Sort in ascending order of widths
         return a[0] < b[0];
-    }
 
-int solveBS(int n,vector<vector<int>>& nums)
-    {
-            sort(nums.begin(),nums.end(),cmp);
+            });
 
             vector<int> ans;
             ans.push_back(nums[0][1]);
