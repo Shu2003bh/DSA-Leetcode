@@ -52,8 +52,8 @@ public:
             h2 = h2->next;
         }
 
-        temp =  middle->next;
-        middle->next =getreverse(temp);
+        // temp =  middle->next;
+        // middle->next =getreverse(temp);
         
 
 
