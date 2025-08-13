@@ -10,6 +10,17 @@
  */
 class Solution {
 public:
+ListNode* getmiddle(ListNode* head){
+    ListNode* fast = head;
+    ListNode* slow = head;
+    while(fast!=NULL && fast->next!=NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+
+}
+
     ListNode* middleNode(ListNode* head) {
         if(head==NULL || head->next == NULL){
             return head;
@@ -17,16 +28,17 @@ public:
         if(head->next->next == NULL){
             return head->next;
         }
-        ListNode* fast = head->next;
-        ListNode* slow = head;
-        while(fast!=NULL){
-            fast = fast->next;
-            if(fast!=NULL){
-                fast = fast->next;
-            }
-            slow = slow->next;
-        }
-        return slow;
+        return getmiddle(head);
+        // ListNode* fast = head->next;
+        // ListNode* slow = head;
+        // while(fast!=NULL){
+        //     fast = fast->next;
+        //     if(fast!=NULL){
+        //         fast = fast->next;
+        //     }
+        //     slow = slow->next;
+        // }
+        // return slow;
 
         
     }
