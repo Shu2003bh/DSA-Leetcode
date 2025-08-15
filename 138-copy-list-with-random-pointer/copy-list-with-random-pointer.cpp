@@ -15,49 +15,35 @@ public:
 */
 
 class Solution {
-        void Insertattail(Node* &head,Node* &tail,int d){
-        Node* temp = new Node(d);
-        if(head == NULL){
-            head = temp;
-            tail = temp;
-            return;
-
-            
-        }
-        else{
-            tail->next = temp;
-            tail = temp;
-        }
-    }
 public:
     Node* copyRandomList(Node* head) {
-        Node* clonehead = NULL;
-        Node* clonetail = NULL;
-
-        Node* temp = head;
-        while(temp!=NULL){
-            Insertattail(clonehead,clonetail,temp->val);
-            temp = temp->next;
+        if(head == NULL){
+            return head;
         }
+        Node* newhead = new Node(head->val); 
+        Node* oldtemp = head->next;
+        Node* newtemp = newhead;
+        unordered_map<Node*,Node*> mp;
 
-        temp = head;
-        Node* temp2 = clonehead;
-        unordered_map<Node*,Node*> oldtonew;
-        while(temp!=NULL && temp2!=NULL){
-            oldtonew[temp]=temp2;
-            temp = temp->next;
-            temp2 = temp2->next;
+        mp[head]=newtemp;
+        while(oldtemp!=NULL){
+            Node* node1 = new Node(oldtemp->val);
+            mp[oldtemp] = node1;
+
+            newtemp->next = node1;
+            oldtemp = oldtemp->next;
+            newtemp = newtemp->next;
         }
-
-        temp = head;
-        temp2 = clonehead;
-        while(temp!=NULL && temp2!=NULL){
-            temp2->random=oldtonew[temp->random];
-            temp = temp->next;
-            temp2 = temp2->next;
-
+        oldtemp = head;
+        newtemp=newhead;
+        while(oldtemp!=NULL){
+            newtemp->random=mp[oldtemp->random];
+            oldtemp = oldtemp->next;
+            newtemp = newtemp->next;
         }
-        return clonehead;
+        return newhead;
+
+
 
         
     }
