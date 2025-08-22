@@ -21,8 +21,13 @@ public:
 
     }
 
+    // int solvetab(string &a, string &b){
+    //     vector<vector<int>> dp(text1.size(),vector<int>(text2.size(),-1));
+
+    // }
+
     int longestCommonSubsequence(string text1, string text2) {
-        vector<vector<int>> dp(text1.size(),vector<int>(text2.size(),-1));
+        vector<vector<int>> dp(text1.size()+1,vector<int>(text2.size()+1,-1));
         return solvemem(0,0,text1,text2,dp);
         
     }
