@@ -41,10 +41,34 @@ public:
 
     }
 
+    int solveso(string &a, string &b){
+        vector<int> curr(b.size()+1,0);
+        vector<int> next(b.size()+1,0);
+        
+        for(int i = a.size()-1;i>=0;i--){
+            for(int j =b.size()-1;j>=0;j--){
+                int ans = 0;
+        if(a[i]==b[j]){
+            ans = 1+next[j+1];
+        }
+        else{
+            ans = max(curr[j+1],next[j]);
+        }
+         curr[j] = ans;
+
+            }
+            next = curr;
+        }
+        return curr[0];
+
+    }
+
+
     int longestCommonSubsequence(string text1, string text2) {
         // vector<vector<int>> dp(text1.size()+1,vector<int>(text2.size()+1,-1));
         // return solvemem(0,0,text1,text2,dp);
-        return solvetab(text1,text2);
+        // return solvetab(text1,text2);
+        return solveso(text1,text2);
         
     }
 };
