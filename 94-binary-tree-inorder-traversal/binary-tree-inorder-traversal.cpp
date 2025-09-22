@@ -9,19 +9,38 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+ //Morris Inorder
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> res;
-        helper(root,res);
-        return res;
-        
-    }
+        vector<int> inorder;
+        TreeNode* curr =  root;
 
-    void helper(TreeNode* root,vector<int> &res){
-        if(!root) return ;
-        helper(root->left,res);
-        res.push_back(root->val);
-        helper(root->right,res);
+        while(curr!=NULL){
+            if(curr->left==NULL){
+                inorder.push_back(curr->val);
+                curr = curr->right;
+            }
+            else{
+                TreeNode* prev = curr->left;
+                while(prev->right && prev->right!=curr){
+                    prev = prev->right;
+                }
+
+                if(prev->right == NULL){
+                    prev->right = curr;
+                    curr = curr->left;
+                }
+                else{
+                    prev->right = NULL;
+                    inorder.push_back(curr->val);
+                    curr = curr->right;
+                }
+            }
+        }
+        return inorder;
+
+
+        
     }
 };
