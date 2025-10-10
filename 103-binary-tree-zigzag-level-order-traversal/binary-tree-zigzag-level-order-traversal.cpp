@@ -16,31 +16,30 @@ public:
         if(root == NULL){
             return res;
         }
+        bool flag = true;
         queue<TreeNode*> q;
         q.push(root);
-
-            bool lefttoright = true;
         while(!q.empty()){
             int n = q.size();
             vector<int> ans(n);
-            for(int i = 0;i<n;i++){
+            for(int i=0;i<n;i++){
                 TreeNode* front = q.front();
                 q.pop();
 
-                int idx = lefttoright ? i : n-i-1;
-                    ans[idx] = front->val ;
-                
+                int index = flag ? i:n-i-1;
+                ans[index]=front->val;
 
                 if(front->left){
                     q.push(front->left);
                 }
+
                 if(front->right){
                     q.push(front->right);
                 }
 
             }
             res.push_back(ans);
-            lefttoright = !lefttoright;
+            flag = !flag;
         }
         return res;
         
