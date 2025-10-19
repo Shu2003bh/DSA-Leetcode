@@ -11,15 +11,15 @@
  */
 class Solution {
 public:
-    TreeNode* solved(vector<int>& nums,int low,int high,int n){
-        if(low>high || high > n){
+    TreeNode* solved(vector<int>& nums,int low,int high){
+        if(low>high){
             return NULL;
         }
         int mid = low + (high-low)/2;
         TreeNode* root = new TreeNode(nums[mid]);
 
-        root->left = solved(nums,low,mid-1,n);
-        root->right = solved(nums,mid+1,high,n);
+        root->left = solved(nums,low,mid-1);
+        root->right = solved(nums,mid+1,high);
 
         return root;
     }
@@ -28,7 +28,7 @@ public:
         int n = nums.size();
         int l = 0;
         int h = n-1;
-        return solved(nums,l,h,n);
+        return solved(nums,l,h);
         
     }
 };
