@@ -26,13 +26,29 @@ public:
         solved(root,arr);
         // sort(arr.begin(),arr.end());
 
-        unordered_map<int,int> mp;
-        for(int i =0;i<arr.size();i++){
-            int c = k - arr[i];
-            if(mp.find(c)!=mp.end()){
+        // unordered_map<int,int> mp;
+        // for(int i =0;i<arr.size();i++){
+        //     int c = k - arr[i];
+        //     if(mp.find(c)!=mp.end()){
+        //         return true;
+        //     }
+        //     mp[arr[i]] = i;
+        // }
+        // return false;
+        int left = 0;
+        int right = arr.size()-1;
+
+        while(left < right){
+            int curr = arr[left] + arr[right];
+            if(curr<k){
+                left++;
+            }
+            else if(curr == k){
                 return true;
             }
-            mp[arr[i]] = i;
+            else{
+                right--;
+            }
         }
         return false;
 
