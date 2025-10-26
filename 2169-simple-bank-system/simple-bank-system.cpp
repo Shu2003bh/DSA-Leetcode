@@ -35,27 +35,23 @@ public:
     }
     
     bool deposit(int account, long long money) {
-        for(int i =0;i<mp.size();i++){
             if(mp.contains(account)){
                 mp[account]+=money;
                 return true;
             }
             
-        }
+        
         return false;
         
     }
     
     bool withdraw(int account, long long money) {
-         for(int i =0;i<mp.size();i++){
             if(mp.contains(account)){
                 if(money <= mp[account]){
                     mp[account]-=money;
                     return true;
                 }
             }
-            
-        }
         return false;
        
         
