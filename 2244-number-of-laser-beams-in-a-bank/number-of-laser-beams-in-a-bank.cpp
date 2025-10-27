@@ -1,30 +1,23 @@
 class Solution {
 public:
-    int atleast_ones(string row, int n) {
-        int count = 0;
-        for(int i = 0; i < n; i++) {
-            if(row[i] == '1') count++;
-        }
-
-        return count;
-    }
-
     int numberOfBeams(vector<string>& bank) {
-        int m = bank.size();
-        int n = bank[0].size();
-        
-        int total_beams = 0, prev_row_ones = 0;
+        int cnt = 0;
+        int prev = 0;
+        int ans = 0;
+        for (int i = 0; i < bank.size(); i++){
+            cnt = 0;
 
-        for(int i = 0; i < m; i++) {
-            int count_ones = atleast_ones(bank[i], n);
-            if(count_ones > 0) {
-                
-                total_beams += count_ones * prev_row_ones;
-                prev_row_ones = count_ones;
-                
+            for (char c : bank[i]){
+                if (c == '1'){
+                    cnt++;
+                }
+            }
+
+            if (cnt > 0){
+                ans += cnt * prev;
+                prev = cnt;
             }
         }
-
-        return total_beams;
+        return ans;
     }
 };
