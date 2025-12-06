@@ -10,50 +10,42 @@
  */
 class Solution {
 public:
- ListNode* kthnode( ListNode* head ,int k){
-     ListNode* temp =head;
-     k-=1;
-     while(temp!=NULL && k>0){
-        k--;
-        temp = temp->next;
-     }
-     return temp;
- }
-  ListNode* rev( ListNode* head){
-    if(head == NULL || head->next==NULL){
-        return head;
+    int solve(ListNode* head, int k){
+      
+        int cnt = 0;
+        while(head!=NULL){
+            head = head->next;
+            cnt++;
+        }
+        return cnt;
     }
-     ListNode* temp = rev(head->next);
-     head->next->next=head;
-     head->next = NULL;
-     return temp;
-  }
     ListNode* reverseKGroup(ListNode* head, int k) {
-         ListNode* temp = head;
-          ListNode* prev = NULL;
-          while(temp!=NULL){
-             ListNode* knode = kthnode(temp,k);
-             if(knode==NULL){
-                if(prev){
-                    prev->next=temp;
-                }
-                break;
-             }
-              ListNode* nextnode = knode->next;
-              knode->next = NULL;
+        int cnt = solve(head,k);
+        int rem = cnt/k; 
 
-               ListNode* revhead = rev(temp);
-               if(temp == head){
-                head = revhead;
-               }else{
-                prev->next = revhead;
-               }
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* prev = dummy;
+        int j = 0;
 
-               prev = temp;
-               temp = nextnode;
-          }
-          return head;
+        while(rem!=0){
+            ListNode* st = prev->next;
+            ListNode* then = st->next;
+            for(int i =0;i<k-1;i++){
+                st->next = then->next;
+                then->next = prev->next;
+                prev->next = then ;
+                then = st->next;
+            }
+            // if(then!=NULL && then->next !=NULL)
+            prev = st;
 
+        
+         
+               rem--;
+        }
+        // prev->next = curr;
+        return dummy->next;
         
     }
 };
