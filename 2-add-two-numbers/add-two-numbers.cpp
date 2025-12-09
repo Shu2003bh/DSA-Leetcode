@@ -10,68 +10,51 @@
  */
 class Solution {
 public:
-
-    void Insertattail(ListNode* &head,ListNode* &tail,int d){
-        ListNode* temp =new ListNode(d) ;
-        if(head==NULL){
-            head = temp ;
-            tail = temp ;
+    void insertattail(ListNode* &head,ListNode* &tail,int d){
+        ListNode* temp = new ListNode(d);
+        if(head == NULL){
+            head = temp;
+            tail = temp;
             return;
 
         }
         else{
             tail->next = temp;
-            tail=temp;
+            tail = temp;
         }
     }
 
-    ListNode* rev(ListNode* head){
-        if(head==NULL || head->next==NULL){
-            return head;
-        }
-        ListNode* temp = rev(head->next);
-        head->next->next= head;
-        head->next = NULL;
-        return temp;
-    }
-
-    ListNode* add(ListNode* head1,ListNode* head2){
-        int carry = 0;
-        ListNode* anshead = NULL;
-        ListNode* anstail = NULL;
-        while(head1!=NULL || head2!=NULL || carry!=0 ){
-            int val1 = 0;
-            if(head1 != NULL){
-                val1 = head1->val;
-            }
-            int val2 = 0;
-            if(head2!=NULL){
-                val2 = head2->val;
-            }
-
-            int sum = carry + val1 +val2;
-            int digit = sum %10;
-            Insertattail(anshead,anstail,digit);
-            carry = sum/10;
-            if(head1!=NULL)
-              head1 = head1->next;
-            if(head2 !=NULL)
-               head2 = head2->next;
-
-            
-
-        }
-        return anshead;
-    }
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* first = l1;
-        ListNode* second = l2;
+        ListNode* head = NULL;
+        ListNode* tail = NULL;
+        int carry = 0;
+        while(l1!=NULL || l2!=NULL || carry!=0){
+            int a= 0,b=0,sum=0;
+            if(l1!=NULL){
+                a = l1->val;
 
-        ListNode* ans = add(first,second);
+            }
 
-        //ans = rev(ans);
-        return ans;
+            if(l2!=NULL){
+                b = l2->val;
+            }
+            sum = a+b+carry;
+            int digit = sum%10;
+            insertattail(head,tail,digit);
+            carry = sum/10;
 
+            if(l1!=NULL){
+                l1 = l1->next;
+            }
+            if(l2!=NULL){
+                l2 = l2->next;
+            }
+
+
+        }
+        return head;
+
+        
         
     }
 };
