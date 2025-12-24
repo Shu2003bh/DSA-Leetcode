@@ -11,34 +11,35 @@
  */
 class Solution {
 public:
- int findpos(int idx,vector<int>& inorder,int n){
+int findpos(vector<int>& inorder,int index ,int n){
         for(int i =0;i<n;i++){
-            if(inorder[i]==idx){
+            if(index == inorder[i]){
                 return i;
             }
         }
         return -1;
     }
-    
-    TreeNode* solved(vector<int>& postorder, vector<int>& inorder,int &index,int st,int end,int n){
-        if(index<0 || st>end){
-            return NULL;
-        }
 
+    TreeNode* solve(vector<int>& postorder, vector<int>& inorder,int& index,int stindex,int endindex,int n ){
+        if(index<0 || stindex>endindex){
+            return NULL;;
+        }
         int element = postorder[index--];
-        int pos = findpos(element,inorder,n);
+        int pos = findpos(inorder,element,n);
         TreeNode* root = new TreeNode(element);
-        root->right = solved(postorder,inorder,index,pos+1,end,n);
-        root->left = solved(postorder,inorder,index,st,pos-1,n);
+        root->right = solve(postorder,inorder,index,pos+1,endindex,n);
+        root->left = solve(postorder,inorder,index,stindex,pos-1,n);
         return root;
+
     }
 
-
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-         int n = postorder.size();
-        int index = n-1;
-        TreeNode* ans = solved(postorder,inorder,index,0,n-1,n);
+        int n  = postorder.size();
+         int index = n-1;
+        TreeNode* ans = solve(postorder,inorder,index,0,n-1,n);
         return ans;
+
+        
         
     }
 };
