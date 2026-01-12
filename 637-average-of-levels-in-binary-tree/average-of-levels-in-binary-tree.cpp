@@ -23,9 +23,8 @@ public:
         while(!q.empty()){
            double sum = 0;
             int n = q.size();
-            int size = n;
-            while(size--){
-                int cnt = 0;
+            for(int i =0;i<n;i++){
+
                 auto top = q.front();
                 q.pop();
                 sum += top->val;
