@@ -11,22 +11,23 @@
  */
 class Solution {
 public:
-    int solved(TreeNode* root,int &ans){
+    int solve(TreeNode* root,int sum,int &maxisum){
         if(root == NULL){
             return 0;
         }
-        const int l = max(0,solved(root->left,ans));
-        const int r = max(0,solved(root->right,ans));
-        ans = max(ans,root->val+l+r);
-        return root->val + max(l,r);
 
+        int left = max(0,solve(root->left,sum,maxisum));
+        int right = max(0,solve(root->right,sum,maxisum));
+
+        sum = root->val+left+right;
+        maxisum = max(maxisum,sum);
+        return root->val + max(left,right);
     }
-
     int maxPathSum(TreeNode* root) {
-        int ans = INT_MIN;
-        solved(root,ans);
-        return ans ;
-        
+        int maxisum = INT_MIN;
+        int sum = 0;
+        solve(root,sum,maxisum);
+        return maxisum;
         
     }
 };
