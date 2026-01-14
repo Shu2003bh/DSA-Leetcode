@@ -11,25 +11,19 @@
  */
 class Solution {
 public:
-    void solved(TreeNode* root, int k,int &cnt,int &kthsmallest){
-        if(!root || cnt>=k){
-            return;
-        }
-        solved(root->left,k,cnt,kthsmallest);
+ void solve(TreeNode* root,vector<int> & ans){
+        if(root == NULL) return ;
+        solve(root->left,ans);
+        ans.push_back(root->val);
+        solve(root->right,ans);
 
-        cnt++;
-
-        if(cnt==k){
-            kthsmallest = root->val;
-        }
-
-        solved(root->right,k,cnt,kthsmallest);
     }
     int kthSmallest(TreeNode* root, int k) {
-        int cnt = 0;
-        int kthsmallest;
-        solved(root,k,cnt,kthsmallest);
-        return kthsmallest;
+        if(root == NULL) return 0;
+        vector<int> ans;
+
+        solve(root,ans);
+        return ans[k-1];
         
     }
 };
