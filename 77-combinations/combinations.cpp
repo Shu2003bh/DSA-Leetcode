@@ -5,7 +5,7 @@ public:
             ans.push_back(temp);
             return;
         }
-        for(int i = index;i<=n;i++){
+        for(int i = index;i<= n - (k - temp.size())+1;i++){
             temp.push_back(i);
             solve(i+1,n,k,temp,ans);
             temp.pop_back();
