@@ -11,24 +11,26 @@
  */
 class Solution {
 public:
-    TreeNode* solved(vector<int>& nums,int low,int high){
-        if(low>high){
+    TreeNode* solve(int st,int end,vector<int> &nums){
+        if(st>end){
             return NULL;
         }
-        int mid = low + (high-low)/2;
+
+        int mid = st +(end-st)/2;
+
         TreeNode* root = new TreeNode(nums[mid]);
-
-        root->left = solved(nums,low,mid-1);
-        root->right = solved(nums,mid+1,high);
-
+        root->left = solve(st,mid-1,nums);
+        root->right = solve(mid+1,end,nums);
         return root;
-    }
 
+
+    }
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        int n = nums.size();
-        int l = 0;
-        int h = n-1;
-        return solved(nums,l,h);
+        if(nums.size()==0){
+            return NULL;
+        }
+
+         return solve(0,nums.size()-1,nums);
         
     }
 };
