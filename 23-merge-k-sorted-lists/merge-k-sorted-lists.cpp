@@ -1,4 +1,4 @@
-#include<queue>/**
+/**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
@@ -8,48 +8,40 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
- class compare{
-    public:
-    bool operator()(ListNode* a,ListNode*b){
-        return a->val > b->val;
-    }
- };
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int k = lists.size();
-        if(k ==0){
+        if(lists.size()==0){
             return NULL;
         }
-    priority_queue<ListNode*,vector<ListNode*> ,compare> pq;
-    for(int i = 0;i<k;i++){
-        ListNode* temp = lists[i];
-        if(lists[i] != nullptr)
-        pq.push(temp);
-
-    }
-
-    ListNode* head = NULL;
-    ListNode* tail = NULL;
-    while(pq.size()>0){
-        ListNode* temp = pq.top();
-        pq.pop();
-        if(temp->next!=NULL){
-            pq.push(temp->next);
+        vector<int> arr;
+        for(auto i : lists){
+            if(i==NULL){
+                continue;
+            }
+           while(i!=NULL){
+            arr.push_back(i->val);
+            i = i->next;
+           }
         }
+        if(arr.size() == 0) return NULL;
 
-        if(head == NULL){
-            head =temp;
-            tail = temp;
+        sort(arr.begin(),arr.end());
+        ListNode* head = new ListNode(arr[0]);
+       ListNode*  curr = head;
+        // curr = curr->next;
+        for(int i =1;i<arr.size();i++){
+            ListNode* node = new ListNode(arr[i]);
+                curr->next = node;
+                curr = curr->next;
+
+            
 
         }
-        else{
-            tail->next = temp;
-            tail = temp;
-        }
+        
+            return head;
 
-    }
-    return head;
+
         
     }
 };
