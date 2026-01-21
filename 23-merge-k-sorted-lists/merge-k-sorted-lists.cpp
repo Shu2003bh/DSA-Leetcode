@@ -10,38 +10,64 @@
  */
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if(lists.size()==0){
+
+    ListNode* merged(ListNode* l1,ListNode* l2){
+        if(!l1){
+            return l2;
+
+        }
+        if(!l2){
+            return l1;
+        }
+        ListNode* dummy = new ListNode(-1);
+        ListNode* curr = dummy;
+
+        while(l1&&l2){
+            if(l1->val > l2->val){
+                curr->next = l2;
+                l2 = l2->next;
+            }
+            else{
+                curr->next = l1;
+                l1 = l1->next;
+            }
+            curr = curr->next;
+        }
+
+        while(l1){
+            curr->next = l1;
+            l1 = l1->next;
+            curr = curr->next;
+        }
+
+        while(l2){
+            curr->next = l2;
+            l2 = l2->next;
+            curr = curr->next;
+        }
+
+        return dummy->next;
+    }
+
+    ListNode* solve(int left,int right,vector<ListNode*>& lists){
+        if(left>right){
             return NULL;
         }
-        vector<int> arr;
-        for(auto i : lists){
-            if(i==NULL){
-                continue;
-            }
-           while(i!=NULL){
-            arr.push_back(i->val);
-            i = i->next;
-           }
-        }
-        if(arr.size() == 0) return NULL;
-
-        sort(arr.begin(),arr.end());
-        ListNode* head = new ListNode(arr[0]);
-       ListNode*  curr = head;
-        // curr = curr->next;
-        for(int i =1;i<arr.size();i++){
-            ListNode* node = new ListNode(arr[i]);
-                curr->next = node;
-                curr = curr->next;
-
-            
-
-        }
-        
-            return head;
+        if(left == right){
+    return lists[left];
+}
 
 
+        int mid = (left + right)/2;
+        ListNode*l1 = solve(left,mid,lists);
+        ListNode*l2 = solve(mid+1,right,lists);
+        return merged(l1,l2);
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.size()==0){
+            return NULL;      
+              }
+              return solve(0,lists.size()-1,lists);
         
     }
 };
