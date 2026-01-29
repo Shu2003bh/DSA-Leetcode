@@ -7,6 +7,6 @@ public:
             ans = (ans<<1)|bit;
             n = n>>1;
         }
-        return (int)ans;
+        return ans;
     }
 };
