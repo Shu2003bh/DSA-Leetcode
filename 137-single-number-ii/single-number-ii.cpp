@@ -1,17 +1,11 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        
-        unordered_map<int,int> mp;
-        for(auto i : nums){
-            mp[i]++;
+        int x = 0,y =0;
+        for (auto i:nums){
+            x = (x^i) &~y;
+            y = (y^i)&~x;
         }
-
-        for(auto i :mp){
-            if(i.second==1){
-                return i.first;
-            }
-        }
-        return -1;
+        return x;
     }
 };
