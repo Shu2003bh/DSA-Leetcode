@@ -1,50 +1,52 @@
 class Solution {
 public:
-bool topo(int node,unordered_map<int,list<int>> &adj,vector<bool> &vis,stack<int> &st,int n,vector<bool> &dfsvis){
-    vis[node]=1;
-    dfsvis[node]=1;
-    for(auto nbr : adj[node]){
-        if(!vis[nbr]){
-            if(!topo(nbr, adj,vis,st,n,dfsvis)){
-                return false;
+    bool dfs(int node,stack<int> &st,vector<bool> &dfsvis,vector<bool> &vis,vector<vector<int>> &adj){   
+        dfsvis[node]=true;
+        vis[node]=true;
+        for(auto i : adj[node]){
+            if(!vis[i]){
+                if(dfs(i,st,dfsvis,vis,adj)){
+                    return true;
+                }
+            }
+            else if(dfsvis[i]){
+                return true;
             }
         }
-        else if(dfsvis[nbr]){
-                return false;
-            }
-        
-}
-      dfsvis[node]=0;
+        dfsvis[node]=false;
         st.push(node);
-      return true;
-}
+        return false;
+    }
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        int n = numCourses;
-        unordered_map<int,list<int>> adj;
+        vector<vector<int>> adj(numCourses);
         for(int i =0;i<prerequisites.size();i++){
             int u = prerequisites[i][0];
             int v = prerequisites[i][1];
+
             adj[v].push_back(u);
-            
+
         }
-        vector<bool> vis(n);
-        vector<bool> dfsvis(n);
+
         stack<int> st;
-        for(int i =0;i<n;i++)
-        {
+        vector<int> ans;
+        vector<bool> vis(numCourses,false);
+        vector<bool> dfsvis(numCourses,false);
+        for(int i =0;i<numCourses;i++){
             if(!vis[i]){
-               if(!topo(i,adj,vis,st,n,dfsvis)){
-                return {};
+               bool cycle = dfs(i,st,dfsvis,vis,adj);
+               if(cycle){
+                return ans;
                }
             }
         }
-        vector<int> ans;
-        while(!st.empty()){
-            ans.push_back(st.top());
-            st.pop();
-        }
-        return ans;
-
         
+        while(!st.empty()){
+            auto top = st.top();
+            st.pop();
+            ans.push_back(top);
+
+        }
+
+      return ans;  
     }
 };
