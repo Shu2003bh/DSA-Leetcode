@@ -1,19 +1,37 @@
 class Solution {
 public:
-    bool dfs(int node,unordered_map<int,bool>& vis,unordered_map<int,bool>& dfsvis,unordered_map<int,list<int>> &adj){
-        vis[node]=true;
-        dfsvis[node]=true;
-        for(auto i : adj[node]){
-            if(!vis[i]){
-                if(dfs(i,vis,dfsvis,adj)) return true;
-                
-            }
-            else if(dfsvis[i]){
-                return true;
+    void kahns(int n,unordered_map<int,list<int>> &adj,int &cnt){
+        vector<int> indeegre(n);
+        for(int i =0;i<n;i++){
+            for(auto j:adj[i]){
+                indeegre[j]++;
             }
         }
-        dfsvis[node]=false;
-        return false;
+        queue<int> q;
+ 
+        for(int i =0;i<n;i++){
+            if(indeegre[i]==0){
+                q.push(i);
+            }
+        }
+
+        while(!q.empty()){
+            auto top = q.front();
+            q.pop();
+            cnt++;
+            for(auto i : adj[top]){
+                indeegre[i]--;
+                if(indeegre[i]==0){
+                    q.push(i);
+                }
+            }
+
+        }
+       
+
+
+
+
     }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int,list<int>> adj;
@@ -23,19 +41,15 @@ public:
             
             adj[v].push_back(u);
         }
-        unordered_map<int,bool> vis;
-        unordered_map<int,bool> dfsvis;
+        int cnt = 0;
 
-        for(int i =0;i<numCourses;i++){
-            if(!vis[i]){
-                bool cycle = dfs(i,vis,dfsvis,adj);
-                if(cycle){
-                    return false;
-                }
-            }
-
+        kahns(numCourses,adj,cnt);
+        if(cnt<numCourses){
+            return false;
         }
-return true;
+        else{
+            return true;
+        }
         
     }
 };
