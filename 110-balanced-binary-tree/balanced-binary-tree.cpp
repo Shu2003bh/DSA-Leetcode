@@ -11,32 +11,34 @@
  */
 class Solution {
 public:
-    pair<bool,int> checkbalanced(TreeNode* root){
-        if(root == NULL){
-            pair<bool,int> p = make_pair(1,0);
-            return p;
+    int solve(TreeNode* root){
+        if(root==NULL){
+            return 0;
         }
-        pair<bool,int> left = checkbalanced(root->left);
-        pair<bool,int> right = checkbalanced(root->right);
 
-        int op1 = left.first;
-        int op2 = right.first;
-        int op3 = abs(left.second-right.second)<=1;
+        int left = solve(root->left);
+        if(left == -1){
+            return -1;
+        }
+        int right = solve(root->right);
+        if(right == -1){
+            return -1;
+        }
 
-         pair<bool,int> ans;
-         ans.second = max(left.second,right.second)+1;
-         if(op1 && op2 && op3){
-            ans.first = true;
-         }
-         else{
-            ans.first = false;
-         }
-         return ans;
-
+        if(abs(left-right)>1){
+            return -1;
+        }else
+        return 1+max(left,right);
     }
     bool isBalanced(TreeNode* root) {
-        pair<bool,int> ans = checkbalanced(root);
-        return ans.first;
+        if(root == NULL){
+            return true;
+        }
+       int ans = solve(root);
+       if(ans == -1){
+        return false;
+       }
+       return true;
         
     }
 };
