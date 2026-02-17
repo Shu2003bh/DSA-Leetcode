@@ -34,12 +34,9 @@ public:
 
     bool dfs(trie* curr,string word,int index){
         if(index == word.size()){
-            if(curr->isend == true){
-                return true;
-            }
-            else{
-                return false;
-            }
+            
+                return curr->isend;
+            
         }
 
         if(word[index]=='.'){
