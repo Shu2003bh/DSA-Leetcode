@@ -9,90 +9,65 @@
  */
 class Codec {
 public:
+    void solve(TreeNode* root,string& ans){
+        if(root == NULL){
+            ans += "#,";
+            return;
+        }
 
+        ans += to_string(root->val)+",";
+        solve(root->left,ans);
+        solve(root->right,ans);
+    }
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
+
         string ans;
-        if (root == NULL ){
-            return ans;
-        }
-
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty()){
-            int size = q.size();
-            while(size--){
-                auto top = q.front();
-                q.pop();
-
-                if(top == NULL){
-                    ans += "null,";
-                    continue;
-                }
-                ans+= to_string(top->val);
-                ans+=",";
-
-                q.push(top->left);
-                q.push(top->right);
-
-            }
-        }
+        solve(root,ans);
         return ans;
-
         
+    }
+
+
+    TreeNode* solve2(vector<string> &st,int &index){
+
+        if(st[index]=="#"){
+            index++;
+            return NULL;
+        }
+
+        TreeNode* root = new TreeNode(stoi(st[index]));
+        index++;
+
+        root->left = solve2(st,index);
+        root->right = solve2(st,index);
+
+        return root;
+
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        if(data.size()==0){
-            return NULL;
 
-        }
-
-        vector<string> st;
+        vector<string> ans;
         string temp;
 
-        for (char c : data){
-            if(c == ','){
-                st.push_back(temp);
-                temp="";
+        for(auto i : data){
+            if(i == ','){
+                ans.push_back(temp);
+                temp = "";
             }
             else{
-                temp += c;
+                temp += i;
             }
         }
 
-        if(st[0]=="null") return NULL;
-        TreeNode* root = new TreeNode(stoi(st[0]));
-        queue<TreeNode*> q;
-        q.push(root);
-
-        int  i =1;
-        while(!q.empty() && i<st.size()){
-            auto top = q.front();
-            q.pop();
-
-            if(st[i]!="null"){
-                top->left = new TreeNode(stoi(st[i]));
-                q.push(top->left);
-            }
-            i++;
-
-
-             if(st[i]!="null"){
-                top->right = new TreeNode(stoi(st[i]));
-                q.push(top->right);
-            }
-            i++;
-            
-        }
-        return root;
-
-
+        int i = 0;
+        return solve2(ans,i);
         
     }
 };
-auto init = atexit([]() { ofstream("display_runtime.txt") << "0"; });
+
 // Your Codec object will be instantiated and called as such:
 // Codec ser, deser;
 // TreeNode* ans = deser.deserialize(ser.serialize(root));
